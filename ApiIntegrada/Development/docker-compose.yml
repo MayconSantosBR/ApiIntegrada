@@ -1,0 +1,48 @@
+﻿version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_apis
+    restart: always
+    networks:
+      - apis
+
+  api1:
+    image: apiintegrada:dev
+    container_name: api1
+    environment:
+      - DATABASE_NAME=Entidades1
+      - MONGO_URI=mongodb://localhost:27018
+      - VIZINHOS=api2:3002,api3:3003
+    ports:
+      - "3001:3001"
+    networks:
+      - apis
+
+  api2:
+    image: apiintegrada:dev
+    container_name: api2
+    environment:
+      - DATABASE_NAME=Entidades2
+      - MONGO_URI=mongodb://localhost:27018
+      - VIZINHOS=api1:3001,api3:3003
+    ports:
+      - "3002:3002"
+    networks:
+      - apis
+
+  api3:
+    image: apiintegrada:dev
+    container_name: api3
+    environment:
+      - DATABASE_NAME=Entidades3
+      - MONGO_URI=mongodb://localhost:27018
+      - VIZINHOS=api1:3001,api2:3002
+    ports:
+      - "3003:3003"
+    networks:
+      - apis
+
+networks:
+  apis:

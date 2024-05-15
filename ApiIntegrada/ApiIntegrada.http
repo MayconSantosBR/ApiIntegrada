@@ -1,0 +1,6 @@
+@ApiIntegrada_HostAddress = http://localhost:5281
+
+GET {{ApiIntegrada_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
